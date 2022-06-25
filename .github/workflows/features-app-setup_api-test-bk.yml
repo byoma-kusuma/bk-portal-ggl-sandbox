@@ -28,12 +28,12 @@ jobs:
       - name: 'Create env file'
         shell: bash
         env:
-          SUPER_SECRET: ${{ secrets.DEV }}
+          SUPER_SECRET: ${{ secrets.ALL }}
         run: |
           echo "$SUPER_SECRET"
           touch .env
           echo ${{secrets}}
-          echo ${{ secrets.DEV }} | base64 --decode > echo  .env
+          echo ${{ secrets.ALL }} | base64 --decode > echo  .env
           echo "======== env file created ========"
           cat .env
 
