@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
 import { GqlOptionsFactory } from '@nestjs/graphql';
+import { join } from 'path';
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory {
@@ -11,7 +12,7 @@ export class GqlConfigService implements GqlOptionsFactory {
     const graphqlConfig = this.configService.get<GraphqlConfig>('graphql');
     return {
       // schema options
-      autoSchemaFile: graphqlConfig.schemaDestination || './schema.graphql',
+      autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
       sortSchema: graphqlConfig.sortSchema,
       buildSchemaOptions: {
         numberScalarMode: 'integer',
@@ -19,7 +20,7 @@ export class GqlConfigService implements GqlOptionsFactory {
       // subscription
       installSubscriptionHandlers: true,
       debug: graphqlConfig.debug,
-      playground: graphqlConfig.playgroundEnabled,
+      playground: true,
       context: ({ req }) => ({ req }),
       useGlobalPrefix: true,
     };
