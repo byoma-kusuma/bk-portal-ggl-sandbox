@@ -24,14 +24,27 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+          
+      - name: 'Create env file'
+        shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.DEV }}
+        run: |
+          echo "$SUPER_SECRET"
+          touch .env
+          echo ${{secrets}}
+          echo ${{ secrets.DEV }} | base64 --decode > echo  .env
+          echo "======== env file created ========"
+          cat .env
 
       - name: 'Resolve Project Dependencies Using Npm'
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          npm install
+          npm ci
           npm run build --if-present
-          npm run test --if-present
           popd
 
       - name: 'Run Azure Functions Action'
