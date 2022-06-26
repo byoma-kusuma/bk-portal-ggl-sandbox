@@ -15,6 +15,7 @@ env:
 
 jobs:
   build-and-deploy:
+    environment: DEV
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
@@ -24,16 +25,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: 'Create env file'
         shell: bash
-        env:
-          SUPER_SECRET: ${{ secrets.ALL }}
         run: |
-          echo "$SUPER_SECRET"
           touch .env
-          echo ${{secrets}}
-          echo ${{ secrets.ALL }} | base64 --decode > echo  .env
+          echo ${{secrets.ALL}}
+          echo ${{ secrets.ALL }} | base64 --decode > .env
           echo "======== env file created ========"
           cat .env
 
@@ -47,7 +45,14 @@ jobs:
           npm run build --if-present
           popd
 
-      - name: 'Run Azure Functions Action'
+      - name: 'Apply latest prisma database migration'
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        shell: bash
+        run: |
+          npm run migrate:deploy
+
+      - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
         id: fa
         with:
