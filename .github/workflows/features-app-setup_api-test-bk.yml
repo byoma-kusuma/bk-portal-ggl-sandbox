@@ -25,13 +25,21 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+          
+      - name: Run Workflow
+        id: write_file
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: '.env'
+          fileDir: './'
+          encodedString: ${{ secrets.ALL }}
 
-      - name: 'Create env file'
-        shell: bash
-        run: |
-          touch .env
-          echo ${{ secrets.ALL }} | base64 --decode > .env | echo "done"
-          echo "======== env file created ========"
+#       - name: 'Create env file'
+#         shell: bash
+#         run: |
+#           touch .env
+#           echo ${{ secrets.ALL }} | base64 --decode > .env | echo "done"
+#           echo "======== env file created ========"
 
       - name: 'Resolve Project Dependencies Using Npm'
         env:
