@@ -30,10 +30,8 @@ jobs:
         shell: bash
         run: |
           touch .env
-          echo ${{secrets.ALL}}
           echo ${{ secrets.ALL }} | base64 --decode > .env
           echo "======== env file created ========"
-          cat .env
 
       - name: 'Resolve Project Dependencies Using Npm'
         env:
