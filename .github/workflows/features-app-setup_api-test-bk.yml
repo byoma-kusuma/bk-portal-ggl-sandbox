@@ -35,8 +35,6 @@ jobs:
           encodedString: ${{ secrets.ALL }}
 
       - name: 'Resolve Project Dependencies Using Npm'
-        # env:
-        #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
@@ -45,8 +43,6 @@ jobs:
           popd
 
       - name: 'Apply latest prisma database migration'
-        # env:
-        #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
         shell: bash
         run: |
           npm run migrate:deploy

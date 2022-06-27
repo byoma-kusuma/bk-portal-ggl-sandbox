@@ -1,5 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { Chance } from 'chance';
+
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 

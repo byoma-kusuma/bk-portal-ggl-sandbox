@@ -20,7 +20,6 @@
     "url": "https://github.com/fivethree-team/nestjs-prisma-client-example/issues"
   },
   "scripts": {
-    "ttt": "rimraf dist && tsc -p tsconfig.build.json",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

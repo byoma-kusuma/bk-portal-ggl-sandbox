@@ -8,6 +8,7 @@ import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 import type {
   CorsConfig,
+  GraphqlConfig,
   NestConfig,
   SwaggerConfig,
 } from './common/configs/config.interface';
@@ -31,6 +32,7 @@ async function bootstrap() {
   const nestConfig = configService.get<NestConfig>('nest');
   const corsConfig = configService.get<CorsConfig>('cors');
   const swaggerConfig = configService.get<SwaggerConfig>('swagger');
+  const graphqlConfig = configService.get<GraphqlConfig>('graphql');
 
   // Swagger Api
   if (swaggerConfig.enabled) {
@@ -44,13 +46,13 @@ async function bootstrap() {
     SwaggerModule.setup(swaggerConfig.path || 'api', app, document);
   }
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(graphqlConfig.globalPrefix);
 
   // Cors
   if (corsConfig.enabled) {
     app.enableCors();
   }
 
-  await app.listen(12000);
+  await app.listen(nestConfig.port);
 }
 bootstrap();

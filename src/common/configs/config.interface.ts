@@ -27,6 +27,7 @@ export interface GraphqlConfig {
   debug: boolean;
   schemaDestination: string;
   sortSchema: boolean;
+  globalPrefix: string;
 }
 
 export interface SecurityConfig {
